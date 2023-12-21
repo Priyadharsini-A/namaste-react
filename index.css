@@ -1,3 +1,38 @@
 #heading{
     color:blueviolet
 }
+.flex-container{
+   
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+/* .flex-container > div{
+    background-color: green;
+} */
+.usericon{
+   font-size: 48px;
+   margin-top: 20px;
+   margin-right: 20px;
+}
+.search
+{
+   
+   display: flex;
+   flex-direction: row;
+   margin-top: 20px;
+   column-gap: 10px;
+   
+ 
+}
+.search-box {
+    height: 40px;
+    width: 500px;
+    border-radius: 20px;
+  }
+  .submit-button{
+    height: 45px;
+    width: 100px;
+    border-radius: 20px;
+  }
