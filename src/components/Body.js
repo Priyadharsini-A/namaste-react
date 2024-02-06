@@ -3,13 +3,16 @@ import resList from "../utils/mockData";
 import { useEffect, useState } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
+import useOnlineStatus from "../utils/useOnlineStatus";
 const Body = () => {
   const [listOfRestaurants, setListOfRstaurant] = useState([]);
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
   const [searchText, setSearchText] = useState("");
+  const onlineStatus=useOnlineStatus();
   useEffect(() => {
     fetchData();
   }, []);
+  console.log("useState",useState())
   const fetchData = async () => {
     const data = await fetch(
       "https://www.swiggy.com/dapi/restaurants/list/v5?lat=13.0826802&lng=80.2707184&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
@@ -38,6 +41,13 @@ const Body = () => {
   };
   if (listOfRestaurants.length === 0) {
     return <Shimmer />;
+  }
+ 
+  if(onlineStatus===false){
+    return(
+<h1>Please Check your internet connection</h1>
+    )
+    
   }
   return (
     <div className="body">
