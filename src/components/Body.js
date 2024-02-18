@@ -1,18 +1,24 @@
-import RestaurantCard from "./RestaurantCard";
+import RestaurantCard,{withPromotedLabel} from "./RestaurantCard";
 import resList from "../utils/mockData";
-import { useEffect, useState } from "react";
+import { useEffect, useState,useContext } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
+import UserContext from "../utils/UserContext";
+
 const Body = () => {
   const [listOfRestaurants, setListOfRstaurant] = useState([]);
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
   const [searchText, setSearchText] = useState("");
+  
+  
   const onlineStatus=useOnlineStatus();
   useEffect(() => {
     fetchData();
   }, []);
-  console.log("useState",useState())
+  const {setUserName,loggedInUser}=useContext(UserContext)
+  const PromotedCard=withPromotedLabel(RestaurantCard)
+  //console.log("useState",useState())
   const fetchData = async () => {
     const data = await fetch(
       "https://www.swiggy.com/dapi/restaurants/list/v5?lat=13.0826802&lng=80.2707184&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
@@ -53,6 +59,7 @@ const Body = () => {
     <div className="body">
       <div className="filter flex">
         <div className="search m-4 p-4">
+
         <input
           type="text"
           className="border border-solid border-black"
@@ -63,6 +70,8 @@ const Body = () => {
         <button className="px-4 py-2 bg-gray-100" onClick={FilterHandler}>
           Top Rated Restaurants
         </button>
+        <label>UserName</label>
+        <input type="text" value={loggedInUser}className="border border-black p-2" onChange={(e)=>setUserName(e.target.value)}></input>
       </div>
       </div>
       <div className="flex flex-wrap ">
@@ -70,7 +79,9 @@ const Body = () => {
           <Link 
           key={restaurant.info.id}
           to={"/restaurants/" + restaurant.info.id}>
-            <RestaurantCard  resData={restaurant} />
+            {restaurant.info.hasOwnProperty('aggregatedDiscountInfoV3')?<PromotedCard resData={restaurant}/>: <RestaurantCard  resData={restaurant} />
+}
+           
           </Link>
         ))}
       </div>
