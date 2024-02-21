@@ -9,6 +9,7 @@ const CategoryList = ({category,showList,setShowIndex,collapseAll}) => {
 // else{
 //   setShowIndex();
 // }
+
 setShowIndex(showList);
   }   
   return (
@@ -19,7 +20,7 @@ setShowIndex(showList);
     </span>
     <span>{"🔽"}</span></div>
     {showList?<div>
-        <ItemList category={category}/>
+        <ItemList item={category.card.card.itemCards}/>
     </div>:""}
     
     </div>
